@@ -42,7 +42,8 @@ in
     ripgrep
     fd
     wget
-    rustup
+    rustc
+    cargo
     go
     openvpn-legacy
     unzip
@@ -71,9 +72,6 @@ in
     sslscan
     wpscan
     gitdumper
-    wine
-    winetricks
-    mono
     sqlmap
     wireshark
     exiftool
@@ -89,6 +87,12 @@ in
     openssl
     dnsrecon
     amass
+    ansifilter
+    inetutils
+    rdesktop
+    nasm
+    proxychains-ng
+    chisel
   ];
 
   xsession.windowManager.awesome = {
@@ -116,12 +120,9 @@ in
     ".zshrc".source = "${dotfiles}/.zshrc";
     ".p10k.zsh".source = "${dotfiles}/.p10k.zsh";
     ".tmux.conf".source = "${dotfiles}/.tmux.conf";
+    ".ensure-tmux-logging.sh".source = "${dotfiles}/.ensure-tmux-logging.sh";
     "wordlists/seclists".source = seclists;
     ".msf4/database.yml".text = msf-database;
-  };
-
-  home.sessionVariables = {
-    TMUX_LOGGING = "true";
   };
 
   home.activation.install-root-certificate =

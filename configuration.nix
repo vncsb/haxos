@@ -8,6 +8,13 @@ in
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelPatches = lib.singleton {
+    name = "enable-nfs-v2";
+    patch = null;
+    extraStructuredConfig = with lib.kernel; {
+        NFS_V2 = module;
+      };
+    };
 
   networking.firewall.trustedInterfaces = [
     "tun0"
