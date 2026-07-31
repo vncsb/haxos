@@ -1,7 +1,7 @@
 { fetchFromGitHub }:
 let
   pname = "seclists";
-  version = "2023.3";
+  version = "2026.1";
 in
 fetchFromGitHub {
   owner = "danielmiessler";
