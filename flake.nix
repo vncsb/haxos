@@ -17,11 +17,13 @@
     in
     {
       nixosConfigurations = {
-        inherit system;
-        modules = [
-          ./configuration.nix
-          ./overlays/default.nix
-        ];
+        haxos = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./configuration.nix
+            ./overlays/default.nix
+          ];
+        };
       };
 
       homeConfigurations = {
