@@ -42,16 +42,18 @@ in
         enable = true;
         luaModules = [ lain ];
       };
+      displayManager = {
+        sessionCommands = ''
+          ${pkgs.xrandr}/bin/xrandr --newmode "3440x1440_60.00" 419.11 3440 3688 4064 4688 1440 1441 1444 1490 -HSync +VSync &&
+          ${pkgs.xrandr}/bin/xrandr --addmode Virtual-1 3440x1440_60.00 &&
+          ${pkgs.xrandr}/bin/xrandr --output Virtual-1 --mode 3440x1440_60.00 
+        '';
+
+      };
     };
     displayManager = {
       autoLogin.enable = true;
       autoLogin.user = "vncsb";
-
-      sessionCommands = ''
-        ${pkgs.xrandr}/bin/xrandr --newmode "3440x1440_60.00" 419.11 3440 3688 4064 4688 1440 1441 1444 1490 -HSync +VSync &&
-        ${pkgs.xrandr}/bin/xrandr --addmode Virtual-1 3440x1440_60.00 &&
-        ${pkgs.xrandr}/bin/xrandr --output Virtual-1 --mode 3440x1440_60.00 
-      '';
     };
   };
 
