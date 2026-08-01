@@ -1,21 +1,5 @@
 {
   "nodes": {
-    "dotfiles": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1782595895,
-        "narHash": "sha256-wdhFwwNixUBjdkcss0AkdkHU1zyl8neNy5PzQDnb458=",
-        "owner": "vncsb",
-        "repo": "dotfiles",
-        "rev": "302f2618b0422adfcbd0e680dfe243e78b84b269",
-        "type": "github"
-      },
-      "original": {
-        "owner": "vncsb",
-        "repo": "dotfiles",
-        "type": "github"
-      }
-    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -69,7 +53,6 @@
     },
     "root": {
       "inputs": {
-        "dotfiles": "dotfiles",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable"

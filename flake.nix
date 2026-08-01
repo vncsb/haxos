@@ -21,7 +21,6 @@
           specialArgs = { inherit inputs; };
           modules = [
             ./configuration.nix
-            ./overlays/default.nix
           ];
         };
       };

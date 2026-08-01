@@ -20,7 +20,7 @@ in
   boot.kernelPatches = lib.singleton {
     name = "enable-nfs-v2";
     patch = null;
-    extraStructuredConfig = with lib.kernel; {
+    structuredExtraConfig = with lib.kernel; {
       NFS_V2 = module;
     };
   };
@@ -35,20 +35,22 @@ in
   programs.zsh.enable = true;
   virtualisation.docker.enable = true;
 
-  services.xserver = {
-    enable = true;
-    windowManager.awesome = {
+  services = {
+    xserver = {
       enable = true;
-      luaModules = [ lain ];
+      windowManager.awesome = {
+        enable = true;
+        luaModules = [ lain ];
+      };
     };
     displayManager = {
       autoLogin.enable = true;
       autoLogin.user = "vncsb";
 
       sessionCommands = ''
-        ${pkgs.xorg.xrandr}/bin/xrandr --newmode "3440x1440_60.00" 419.11 3440 3688 4064 4688 1440 1441 1444 1490 -HSync +VSync &&
-        ${pkgs.xorg.xrandr}/bin/xrandr --addmode Virtual-1 3440x1440_60.00 &&
-        ${pkgs.xorg.xrandr}/bin/xrandr --output Virtual-1 --mode 3440x1440_60.00 
+        ${pkgs.xrandr}/bin/xrandr --newmode "3440x1440_60.00" 419.11 3440 3688 4064 4688 1440 1441 1444 1490 -HSync +VSync &&
+        ${pkgs.xrandr}/bin/xrandr --addmode Virtual-1 3440x1440_60.00 &&
+        ${pkgs.xrandr}/bin/xrandr --output Virtual-1 --mode 3440x1440_60.00 
       '';
     };
   };
