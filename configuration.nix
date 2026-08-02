@@ -61,6 +61,7 @@ in
     rpcbind.enable = true;
     nfs.server.enable = true;
     spice-vdagentd.enable = true;
+    qemuGuest.enable = true;
   };
 
   users.users.vncsb = {

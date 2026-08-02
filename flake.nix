@@ -4,6 +4,8 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    disko.url = "github:nix-community/disko/latest";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs =
     {
@@ -11,16 +13,16 @@
       nixpkgs,
       nixpkgs-stable,
       home-manager,
+      disko
     }@inputs:
-    let
-      system = "x86_64-linux";
-    in
     {
       nixosConfigurations = {
         haxos = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs; };
           modules = [
+            disko.nixosModules.disko
             ./configuration.nix
+            ./disko-config.nix
           ];
         };
       };
