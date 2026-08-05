@@ -1,24 +1,8 @@
-{ buildPythonPackage
-, fetchFromGitHub
-, pysocks
-, jinja2
-, certifi
-, defusedxml
-, markupsafe
-, pyopenssl
-, charset-normalizer
-, requests
-, requests_ntlm
-, colorama
-, pyparsing
-, beautifulsoup4
-, mysql-connector
-, psycopg
-, requests-toolbelt
-, setuptools
-, pythonRelaxDepsHook
+{ 
+  python3Packages,
+  fetchFromGitHub,
 }:
-buildPythonPackage rec {
+python3Packages.buildPythonApplication (finalAttrs : rec {
   pname = "dirsearch";
   version = "0.4.3";
   pyproject = true;
@@ -31,13 +15,12 @@ buildPythonPackage rec {
     sha256 = "sha256-eXB103qUB3m7V/9hlq2xv3Y3bIz89/pGJsbPZQ+AZXs=";
   };
 
-  nativeBuildInputs = [
+  build-system = with python3Packages; [
     setuptools
-    pythonRelaxDepsHook
   ];
-  pythonRelaxDeps = true;
 
-  propagatedBuildInputs = [
+  dependencies = with python3Packages; [
+    chardet
     pysocks
     jinja2
     certifi
@@ -46,7 +29,7 @@ buildPythonPackage rec {
     pyopenssl
     charset-normalizer
     requests
-    requests_ntlm
+    requests-ntlm
     colorama
     pyparsing
     beautifulsoup4
@@ -55,8 +38,10 @@ buildPythonPackage rec {
     requests-toolbelt
   ];
 
+  pythonRelaxDeps = true;
+
   postPatch = ''
     substituteInPlace requirements.txt \
       --replace "ntlm_auth>=1.5.0" ""
   '';
-}
+})

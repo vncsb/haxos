@@ -7,22 +7,116 @@
 }:
 let
   lain = pkgs.callPackage ./pkgs/lain.nix { lua = pkgs.lua5_3; };
+  dirsearch = pkgs.callPackage ./pkgs/dirsearch.nix { };
+
+  python-packages =
+    ps: with ps; [
+      impacket
+      pwntools
+      pyftpdlib
+      dirsearch
+    ];
 in
 {
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
   ];
+  nixpkgs.hostPlatform = "x86_64-linux";
   nixpkgs.config.allowUnfree = true;
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPatches = lib.singleton {
-    name = "enable-nfs-v2";
-    patch = null;
-    structuredExtraConfig = with lib.kernel; {
-      NFS_V2 = module;
+  environment.systemPackages = with pkgs; [
+    gcc
+    git
+    tmux
+    zsh
+    alacritty
+    neovim
+    chromium
+    firefox
+    eza
+    meslo-lgs-nf
+    nerd-fonts.terminess-ttf
+    gobuster
+    feroxbuster
+    dirsearch
+    seclists
+    nodejs
+    xsel
+    ripgrep
+    fd
+    wget
+    rustc
+    cargo
+    go
+    openvpn
+    unzip
+    metasploit
+    nmap
+    nssTools
+    zap
+    burpsuite
+    (python3.withPackages python-packages)
+    bruno
+    cadaver
+    thc-hydra
+    openldap
+    enum4linux
+    netexec
+    samba
+    kerbrute
+    updog
+    rclone
+    exploitdb
+    john
+    evil-winrm
+    bloodhound-ce
+    bloodhound-py
+    sslscan
+    wpscan
+    git-dumper
+    sqlmap
+    wireshark
+    exiftool
+    whatweb
+    wafw00f
+    onesixtyone
+    snmpcheck
+    nfs-utils
+    jq
+    dig
+    responder
+    openssl
+    dnsrecon
+    amass
+    ansifilter
+    inetutils
+    rdesktop
+    nasm
+    proxychains-ng
+    chisel
+    ligolo-ng
+    zoxide
+    direnv
+    uv
+  ];
+
+  boot = {
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
     };
+    initrd.availableKernelModules = [
+      "virtio_net"
+      "virtio_blk"
+      "virtio_pci"
+      "virtio_scsi"
+      "virtio_balloon"
+    ];
+    initrd.kernelModules = [
+      "virtio_blk"
+      "virtio_scsi"
+    ];
   };
 
   networking = {
@@ -40,15 +134,10 @@ in
       enable = true;
       windowManager.awesome = {
         enable = true;
-        luaModules = [ lain ];
-      };
-      displayManager = {
-        sessionCommands = ''
-          ${pkgs.xrandr}/bin/xrandr --newmode "3440x1440_60.00" 419.11 3440 3688 4064 4688 1440 1441 1444 1490 -HSync +VSync &&
-          ${pkgs.xrandr}/bin/xrandr --addmode Virtual-1 3440x1440_60.00 &&
-          ${pkgs.xrandr}/bin/xrandr --output Virtual-1 --mode 3440x1440_60.00 
-        '';
-
+        luaModules = with pkgs.luaPackages; [
+          luarocks
+          lain
+        ];
       };
     };
     displayManager = {

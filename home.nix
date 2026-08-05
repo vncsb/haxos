@@ -1,5 +1,7 @@
 { config, pkgs, pkgs-stable, lib, dotfiles, ... }:
 let
+  seclists = pkgs.callPackage ./pkgs/seclists.nix { };
+  msf-database = pkgs.callPackage ./config/metasploit/database.nix { };
   gitdumper = pkgs.python3Packages.callPackage ./pkgs/gitdumper.nix { };
   dirsearch = pkgs.python3Packages.callPackage ./pkgs/dirsearch.nix { };
 
@@ -32,8 +34,6 @@ in
     meslo-lgs-nf
     terminus-nerdfont
     gobuster
-    feroxbuster
-    seclists
     nodejs
     xsel
     ripgrep
@@ -90,7 +90,6 @@ in
     nasm
     proxychains-ng
     chisel
-    ligolo-ng
   ];
 
   xsession.windowManager.awesome = {
@@ -98,4 +97,13 @@ in
   };
 
   programs.home-manager.enable = true;
+
+  home.file = {
+    ".zshrc".source = "${dotfiles}/.zshrc";
+    ".p10k.zsh".source = "${dotfiles}/.p10k.zsh";
+    ".tmux.conf".source = "${dotfiles}/.tmux.conf";
+    ".ensure-tmux-logging.sh".source = "${dotfiles}/.ensure-tmux-logging.sh";
+    "wordlists/seclists".source = seclists;
+    ".msf4/database.yml".text = msf-database;
+  };
 }
